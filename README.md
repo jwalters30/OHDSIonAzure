@@ -1,3 +1,7 @@
+Forked from: https://github.com/microsoft/OHDSIonAzure/tree/main
+On: 24 Jul 2023
+Modifications: Changed deploy button to point to this repo instead of the main repo.  Planning to add the https://hub.docker.com/r/ohdsi/broadsea-achilles container as an App Service...
+
 # Introduction
 
 OHDSI on Azure GitHub repository is designed to ease deployment of tools provided by the Observational Health Data Sciences and Informatics (OHDSI, pronounced "Odyssey") community on to Azure. We are guided by our Hypothesis and core objectives.
@@ -41,7 +45,7 @@ This setup is based on the [CDM v5.4.0](https://github.com/OHDSI/CommonDataModel
 To get started, click on deploy to Azure button.
 To get more detailed instructions, please refer to the [Deployment Guide](./docs/DeploymentGuide.md).
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2FOHDSIonAzure%2Fmain%2Finfra%2Farm_output%2Fmain.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fjwalters30%2FOHDSIonAzure%2Fmain%2Finfra%2Farm_output%2Fmain.json)
 
 ## Create a synthetic OMOP CDM
 This solution comes with a prebuilt synthetic CDM of 1,000 patients. If you wish to create your own (maybe larger) synthetic dataset you can follow a similar process described [here](/docs/PrepareSyntheticOMOP.md).
