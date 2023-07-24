@@ -6,7 +6,7 @@ param logAnalyticsWorkspaceId string
 
 var dockerRegistryServer = 'https://index.docker.io/v1'
 var dockerImageName = 'ohdsi/broadsea-achilles'
-var dockerImageTag = 'latest'
+var dockerImageTag = 'sha-c40e549'
 //var shareName = 'achilles'
 //var mountPath = '/etc/achilles'
 var logCategories = ['AppServiceAppLogs', 'AppServiceConsoleLogs', 'AppServiceHTTPLogs']
@@ -115,7 +115,7 @@ resource uiWebApp 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'WEBSITES_PORT'
-          value: '8080'
+          value: '8087'
         }
       ]
     }
