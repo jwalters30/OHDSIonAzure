@@ -247,6 +247,21 @@ module atlasUI 'ohdsi_atlas_ui.bicep' = {
 
 output ohdsiWebapiUrl string = ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
 
+@description('Creates the ohdsi achilles UI')
+module achillesUI 'ohdsi_achilles.bicep' = {
+  name: 'achillesUI'
+  params: {
+    location: location
+    suffix: suffix
+    appServicePlanId: appServicePlan.id
+    ohdsiWebApiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
+    logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
+  }
+  dependsOn: [
+    ohdsiWebApiWebapp
+  ]
+}
+
 resource atlasSecurityAdminSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
   name: 'atlas-security-admin-password'
   parent: keyVault
