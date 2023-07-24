@@ -7,8 +7,8 @@ param logAnalyticsWorkspaceId string
 var dockerRegistryServer = 'https://index.docker.io/v1'
 var dockerImageName = 'ohdsi/broadsea-achilles'
 var dockerImageTag = 'latest'
-var shareName = 'achilles'
-var mountPath = '/etc/achilles'
+//var shareName = 'achilles'
+//var mountPath = '/etc/achilles'
 var logCategories = ['AppServiceAppLogs', 'AppServiceConsoleLogs', 'AppServiceHTTPLogs']
 
 /*
