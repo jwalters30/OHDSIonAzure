@@ -117,6 +117,18 @@ resource uiWebApp 'Microsoft.Web/sites@2022-03-01' = {
           name: 'WEBSITES_PORT'
           value: '8087'
         }
+        {
+          name: 'ACHILLES_DB_URI'
+          value: 'postgresql://host.docker.internal:5432/postgres'
+        }
+        {
+          name: 'ACHILLES_DB_USERNAME'
+          value: 'postgres_user'
+        }
+        {
+          name: 'ACHILLES_DB_PASSWORD'
+          value: 'postgres_password'
+        }
       ]
     }
   }
