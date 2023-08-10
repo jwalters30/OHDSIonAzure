@@ -100,6 +100,10 @@ param localDebug bool = false
 param cdmDbType string = 'PostgreSQL'
 
 var tenantId = subscription().tenantId
+var vnetName = 'vnet-${suffix}'
+var vnetAddressPrefix = '10.0.0.0/16'
+var subnetName = 'snet-${suffix}-webapp'
+var subnetAddressPrefix = '10.0.0.0/24'
 
 @description('Creates the app service plan')
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
@@ -146,6 +150,35 @@ resource keyVaultDiagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-0
         retentionPolicy: {
           days: 30
           enabled: true
+        }
+      }
+    ]
+  }
+}
+
+@description('Creates the integration VNet')
+resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
+  name: vnetName
+  location: location
+  properties: {
+    addressSpace: {
+      addressPrefixes: [
+        vnetAddressPrefix
+      ]
+    }
+    subnets: [
+      {
+        name: subnetName
+        properties: {
+          addressPrefix: subnetAddressPrefix
+          delegations: [
+            {
+              name: 'delegation'
+              properties: {
+                serviceName: 'Microsoft.Web/serverFarms'
+              }
+            }
+          ]
         }
       }
     ]
