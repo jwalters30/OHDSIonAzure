@@ -3,6 +3,7 @@ param suffix string
 param appServicePlanId string
 param ohdsiWebApiUrl string
 param logAnalyticsWorkspaceId string
+param subnetID string
 
 var dockerRegistryServer = 'https://index.docker.io/v1'
 var dockerImageName = 'ohdsi/atlas'
@@ -76,6 +77,7 @@ resource uiWebApp 'Microsoft.Web/sites@2022-03-01' = {
     httpsOnly: true
     clientAffinityEnabled: false
     serverFarmId: appServicePlanId
+    virtualNetworkSubnetId: subnetID
     siteConfig: {
       azureStorageAccounts: {
         '${shareName}': {
@@ -86,6 +88,7 @@ resource uiWebApp 'Microsoft.Web/sites@2022-03-01' = {
           accessKey: storageAccount.listKeys().keys[0].value
         }
       }
+      vnetRouteAllEnabled: true
       linuxFxVersion: 'DOCKER|${dockerImageName}:${dockerImageTag}'
       ftpsState: 'Disabled'
       appSettings: [

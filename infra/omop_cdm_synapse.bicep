@@ -38,6 +38,8 @@ param keyVaultName string
 @description('The URL of the OHDSI WebAPI')
 param ohdsiWebapiUrl string
 
+param subnetID string
+
 var OMOPCDMSchemaName = 'cdm'
 var OMOPResultsSchemaName = 'cdm_results'
 var OMOPTempSchemaName = 'temp'

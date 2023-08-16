@@ -3,10 +3,13 @@ param suffix string
 param appServicePlanId string
 param ohdsiWebApiUrl string
 param logAnalyticsWorkspaceId string
+param subnetID string
 
 var dockerRegistryServer = 'https://index.docker.io/v1'
 var dockerImageName = 'ohdsi/broadsea-achilles'
+//var dockerImageName = 'rocker/rstudio'
 var dockerImageTag = 'sha-c40e549'
+//var dockerImageTag = 'latest'
 //var shareName = 'achilles'
 //var mountPath = '/etc/achilles'
 var logCategories = ['AppServiceAppLogs', 'AppServiceConsoleLogs', 'AppServiceHTTPLogs']
@@ -78,6 +81,7 @@ resource uiWebApp 'Microsoft.Web/sites@2022-03-01' = {
     httpsOnly: true
     clientAffinityEnabled: false
     serverFarmId: appServicePlanId
+    virtualNetworkSubnetId: subnetID
     siteConfig: {
       /*
       azureStorageAccounts: {
@@ -90,6 +94,7 @@ resource uiWebApp 'Microsoft.Web/sites@2022-03-01' = {
         }
       }
       */
+      vnetRouteAllEnabled: true
       linuxFxVersion: 'DOCKER|${dockerImageName}:${dockerImageTag}'
       ftpsState: 'Disabled'
       appSettings: [
