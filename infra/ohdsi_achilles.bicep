@@ -1,5 +1,6 @@
 param location string
 param suffix string
+param keyVaultName string
 param appServicePlanId string
 param logAnalyticsWorkspaceId string
 param subnetID string
@@ -12,6 +13,11 @@ var dockerImageTag = 'sha-c40e549'
 //var shareName = 'achilles'
 //var mountPath = '/etc/achilles'
 var logCategories = ['AppServiceAppLogs', 'AppServiceConsoleLogs', 'AppServiceHTTPLogs']
+
+// Get the keyvault
+resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
+  name: keyVaultName
+}
 
 /*
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
@@ -119,7 +125,7 @@ resource uiWebApp 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'ACHILLES_DB_URI'
-          value: 'postgresql://host.docker.internal:5432/postgres'
+          value: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName="synthea1k-cdm-jdbc-connection-string")'
         }
         {
           name: 'ACHILLES_DB_USERNAME'
@@ -127,7 +133,7 @@ resource uiWebApp 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'ACHILLES_DB_PASSWORD'
-          value: 'postgres_password'
+          value: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName="synthea1k-cdm-user-password")'
         }
       ]
     }

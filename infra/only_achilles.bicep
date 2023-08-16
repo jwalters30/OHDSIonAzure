@@ -229,6 +229,7 @@ module achillesUI 'ohdsi_achilles.bicep' = {
     location: location
     suffix: suffix
     appServicePlanId: appServicePlan.id
+    keyVaultName: keyVault.name
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
     subnetID: vnet.properties.subnets[0].id
   }
