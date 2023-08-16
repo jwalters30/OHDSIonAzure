@@ -1,7 +1,6 @@
 param location string
 param suffix string
 param appServicePlanId string
-param ohdsiWebApiUrl string
 param logAnalyticsWorkspaceId string
 param subnetID string
 
@@ -105,10 +104,6 @@ resource uiWebApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'WEBSITE_HEALTHCHECK_MAXPINGFAILURES'
           value: '10'
-        }
-        {
-          name: 'WEBAPI_URL'
-          value: ohdsiWebApiUrl
         }
         {
           name: 'WEBSITE_HTTPLOGGING_RETENTION_DAYS'
