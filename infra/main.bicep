@@ -167,7 +167,7 @@ module createSubnets 'create_subnets.bicep' = {
   name: 'createSubnets'
   scope: resourceGroup('RG-DW_VNET-EastUS2')
   params: {
-    vnet: vnet
+    vnetName: vnetName
     subnetNameApp: subnetNameApp
     subnetAddressPrefixApp: subnetAddressPrefixApp
     subnetNamePE: subnetNamePE
