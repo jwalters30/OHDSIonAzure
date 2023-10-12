@@ -149,3 +149,5 @@ resource subnetDB 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = {
 }
 
 output vnet object = vnet
+output subnetDB object = subnetDB
+output subnetApp object = subnetApp
