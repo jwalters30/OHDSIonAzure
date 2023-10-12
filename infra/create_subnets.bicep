@@ -11,7 +11,6 @@ param subnetAddressPrefixPE string
 @description('Finds the integration VNet')
 resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' existing = {
   name: vnetName
-  scope: resourceGroup('RG-DW_VNET-EastUS2')
   /*
   location: location
   properties: {
