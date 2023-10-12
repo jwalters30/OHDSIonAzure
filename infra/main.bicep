@@ -2,7 +2,7 @@ targetScope = 'resourceGroup'
 
 @description('The location for all resources.')
 param location string = resourceGroup().location
-param suffix string = 'jw20230815a'
+param suffix string = 'jw20231012'
 
 @description('The url of the container where the cdm is stored')
 #disable-next-line no-hardcoded-env-urls
@@ -101,9 +101,9 @@ param cdmDbType string = 'PostgreSQL'
 
 var tenantId = subscription().tenantId
 var vnetName = 'vnet-${suffix}'
-var vnetAddressPrefix = '10.0.0.0/16'
+//var vnetAddressPrefix = '10.0.0.0/16'
 var subnetName = 'snet-${suffix}-webapp'
-var subnetAddressPrefix = '10.0.0.0/24'
+//var subnetAddressPrefix = '10.0.0.0/24'
 
 @description('Creates the app service plan')
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
@@ -147,19 +147,19 @@ resource keyVaultDiagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-0
       {
         category: 'AuditEvent'
         enabled: true
-        retentionPolicy: {
-          days: 30
-          enabled: true
-        }
+//        retentionPolicy: {
+//          days: 30
+//          enabled: true
+//        }
       }
     ]
   }
 }
 
 @description('Creates the integration VNet')
-resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
+resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = existing {
   name: vnetName
-  location: location
+/*  location: location
   properties: {
     addressSpace: {
       addressPrefixes: [
@@ -182,7 +182,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = {
         }
       }
     ]
-  }
+  } */
 }
 
 @description('Creates the database server, users and groups required for ohdsi webapi')
