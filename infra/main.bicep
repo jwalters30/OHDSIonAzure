@@ -163,9 +163,10 @@ resource keyVaultDiagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-0
   }
 }
 
-@description('Creates the integration VNet')
+@description('Finds the integration VNet')
 resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' existing = {
   name: vnetName
+  scope: resourceGroup('RG-DW_VNET-EastUS2')
   /*
   location: location
   properties: {
@@ -225,6 +226,84 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' existing = {
   */
 }
 
+resource subnetApp 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = {
+  parent: vnet
+  name: subnetNameApp
+  properties: {
+    addressPrefix: subnetAddressPrefixApp
+    privateEndpointNetworkPolicies: 'Disabled'
+    privateLinkServiceNetworkPolicies: 'Enabled'
+  /*  networkSecurityGroup: {
+      id: networkSecurityGroup.id
+    } */
+    delegations: [
+      {
+        name: 'delegation'
+        properties: {
+          serviceName: 'Microsoft.Web/serverFarms'
+        }
+      }
+    ]
+  /*  serviceEndpoints: [
+      {
+        service: 'Microsoft.Storage'
+      }
+    ] */
+  }
+}
+
+resource subnetPE 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = {
+  parent: vnet
+  name: subnetNamePE
+  properties: {
+    addressPrefix: subnetAddressPrefixPE
+    privateEndpointNetworkPolicies: 'Enabled'
+    privateLinkServiceNetworkPolicies: 'Disabled'
+  /*  networkSecurityGroup: {
+      id: networkSecurityGroup.id
+    } */
+  /*  delegations: [
+      {
+        name: 'delegation'
+        properties: {
+          serviceName: 'Microsoft.Web/serverFarms'
+        }
+      }
+    ] */
+  /*  serviceEndpoints: [
+      {
+        service: 'Microsoft.Storage'
+      }
+    ] */
+  }
+}
+
+resource subnetDB 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = {
+  parent: vnet
+  name: subnetNameDB
+  properties: {
+    addressPrefix: subnetAddressPrefixDB
+    privateEndpointNetworkPolicies: 'Disabled'
+    privateLinkServiceNetworkPolicies: 'Enabled'
+  /*  networkSecurityGroup: {
+      id: networkSecurityGroup.id
+    } */
+  /*  delegations: [
+      {
+        name: 'delegation'
+        properties: {
+          serviceName: 'Microsoft.Web/serverFarms'
+        }
+      }
+    ] */
+  /*  serviceEndpoints: [
+      {
+        service: 'Microsoft.Storage'
+      }
+    ] */
+  }
+}
+
 //Microsoft.Network/fpgaNetworkInterfaces,Microsoft.Web/serverFarms,Microsoft.ContainerInstance/containerGroups,Microsoft.Netapp/volumes,Microsoft.HardwareSecurityModules/dedicatedHSMs,Microsoft.ServiceFabricMesh/networks,Microsoft.Logic/integrationServiceEnvironments,Microsoft.Batch/batchAccounts,Microsoft.Sql/managedInstances,Microsoft.Sql/managedInstancesOnebox,Microsoft.Sql/managedInstancesTest,Microsoft.Sql/managedInstancesStage,Microsoft.Web/hostingEnvironments,Microsoft.BareMetal/CrayServers,Microsoft.BareMetal/MonitoringServers,Microsoft.Databricks/workspaces,Microsoft.BareMetal/AzureHostedService,Microsoft.BareMetal/AzureVMware,Microsoft.BareMetal/AzureHPC,Microsoft.BareMetal/AzurePaymentHSM,Microsoft.StreamAnalytics/streamingJobs,Microsoft.DBforPostgreSQL/serversv2,Microsoft.AzureCosmosDB/clusters,Microsoft.MachineLearningServices/workspaces,Microsoft.DBforPostgreSQL/singleServers,Microsoft.DBforPostgreSQL/flexibleServers,Microsoft.DBforMySQL/serversv2,Microsoft.DBforMySQL/flexibleServers,Microsoft.DBforMySQL/servers,Microsoft.ApiManagement/service,Microsoft.Synapse/workspaces,Microsoft.PowerPlatform/vnetaccesslinks,Microsoft.Network/dnsResolvers,Microsoft.Kusto/clusters,Microsoft.DelegatedNetwork/controller,Microsoft.ContainerService/managedClusters,Microsoft.PowerPlatform/enterprisePolicies,Microsoft.Network/virtualNetworkGateways,Microsoft.StoragePool/diskPools,Microsoft.DocumentDB/cassandraClusters,Microsoft.Apollo/npu,Microsoft.AVS/PrivateClouds,Microsoft.Orbital/orbitalGateways,Microsoft.Singularity/accounts/networks,Microsoft.Singularity/accounts/npu,Microsoft.ContainerService/TestClients,Microsoft.LabServices/labplans,Microsoft.Fidalgo/networkSettings,Microsoft.DevCenter/networkConnection,NGINX.NGINXPLUS/nginxDeployments,Microsoft.CloudTest/pools,Microsoft.CloudTest/hostedpools,Microsoft.CloudTest/images,Microsoft.Codespaces/plans,PaloAltoNetworks.Cloudngfw/firewalls,Qumulo.Storage/fileSystems,Microsoft.App/testClients,Microsoft.App/environments,Microsoft.ServiceNetworking/trafficControllers,GitHub.Network/networkSettings,Microsoft.Network/networkWatchers,Dell.Storage/fileSystems
 
 @description('Creates the database server, users and groups required for ohdsi webapi')
@@ -241,7 +320,7 @@ module atlasDatabase 'atlas_database.bicep' = {
     postgresWebapiAppPassword: postgresWebapiAppPassword
     localDebug: localDebug
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: vnet.properties.subnets[0].id
+    subnetID: vnet.properties.subnets[3].id
   }
 }
 
@@ -260,7 +339,7 @@ module ohdsiWebApiWebapp 'ohdsi_webapi.bicep' = {
     postgresWebapiAppUsername: atlasDatabase.outputs.postgresWebapiAppUsername
     postgresWebApiSchemaName: atlasDatabase.outputs.postgresSchemaName
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: vnet.properties.subnets[0].id
+    subnetID: vnet.properties.subnets[1].id
   }
   dependsOn: [
     atlasDatabase
@@ -282,7 +361,7 @@ module omopCDMPostgres 'omop_cdm_postgres.bicep' = if (cdmDbType == 'PostgreSQL'
     postgresOMOPCDMPassword: OMOPCDMPassword
     postgresServerName: atlasDatabase.outputs.postgresServerName
     ohdsiWebapiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
-    subnetID: vnet.properties.subnets[0].id
+    subnetID: vnet.properties.subnets[3].id
   }
   dependsOn: [
     ohdsiWebApiWebapp
@@ -302,7 +381,7 @@ module omopCDMSynapse 'omop_cdm_synapse.bicep' = if (cdmDbType == 'Synapse Dedic
     databaseName: OMOPCDMDatabaseName
     sqlAdminPassword: OMOPCDMPassword
     ohdsiWebapiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
-    subnetID: vnet.properties.subnets[0].id
+    subnetID: vnet.properties.subnets[3].id
   }
   dependsOn: [
     ohdsiWebApiWebapp
@@ -318,7 +397,7 @@ module atlasUI 'ohdsi_atlas_ui.bicep' = {
     appServicePlanId: appServicePlan.id
     ohdsiWebApiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: vnet.properties.subnets[0].id
+    subnetID: vnet.properties.subnets[1].id
   }
   dependsOn: [
     ohdsiWebApiWebapp
@@ -326,7 +405,7 @@ module atlasUI 'ohdsi_atlas_ui.bicep' = {
 }
 
 output ohdsiWebapiUrl string = ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
-
+/*
 @description('Creates the ohdsi achilles UI')
 module achillesUI 'ohdsi_achilles.bicep' = {
   name: 'achillesUI'
@@ -337,13 +416,13 @@ module achillesUI 'ohdsi_achilles.bicep' = {
 //    ohdsiWebApiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
     keyVaultName: keyVault.name
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: vnet.properties.subnets[0].id
+    subnetID: vnet.properties.subnets[1].id
   }
   dependsOn: [
     ohdsiWebApiWebapp
   ]
 }
-
+*/
 resource atlasSecurityAdminSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
   name: 'atlas-security-admin-password'
   parent: keyVault
