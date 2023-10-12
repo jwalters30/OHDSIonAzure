@@ -125,18 +125,18 @@ resource uiWebApp 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'ACHILLES_DB_URI'
-          value: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName="synthea1k-cdm-jdbc-connection-string")'
+          value: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName="manual-psql-secret")'
         }
-        {
+/*        {
           name: 'ACHILLES_DB_USERNAME'
           value: 'postgres_user'
         }
         {
           name: 'ACHILLES_DB_PASSWORD'
           value: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName="synthea1k-cdm-user-password")'
-        }
+        } */
       ]
-    }
+    } 
   }
   /*
   dependsOn: [
@@ -153,10 +153,10 @@ resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
     logs: [for logCategory in logCategories: {
       category: logCategory
       enabled: true
-      retentionPolicy: {
-        days: 30
-        enabled: true
-      }
+//      retentionPolicy: {
+//        days: 30
+//        enabled: true
+//      }
     }]
   }
 }

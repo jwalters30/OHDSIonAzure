@@ -2,7 +2,7 @@ targetScope = 'resourceGroup'
 
 @description('The location for all resources.')
 param location string = resourceGroup().location
-param suffix string = 'jw20230815a'
+param suffix string = 'jw20230817'
 
 @description('The url of the container where the cdm is stored')
 #disable-next-line no-hardcoded-env-urls
@@ -101,9 +101,9 @@ param cdmDbType string = 'PostgreSQL'
 
 var tenantId = subscription().tenantId
 var vnetName = 'vnet-${suffix}'
-var vnetAddressPrefix = '10.0.0.0/16'
+var vnetAddressPrefix = '10.210.16.0/22'
 var subnetName = 'snet-${suffix}-webapp'
-var subnetAddressPrefix = '10.0.0.0/24'
+var subnetAddressPrefix = '10.210.16.0/26'
 
 @description('Creates the app service plan')
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' existing = {

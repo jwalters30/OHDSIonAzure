@@ -132,10 +132,10 @@ resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
     logs: [for logCategory in logCategories: {
       category: logCategory
       enabled: true
-      retentionPolicy: {
-        days: 30
-        enabled: true
-      }
+//      retentionPolicy: {
+//        days: 30
+//        enabled: true
+//      }
     }]
   }
 }
