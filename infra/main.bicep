@@ -226,84 +226,19 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' existing = {
   */
 }
 
-resource subnetApp 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = {
-  parent: vnet
-  name: subnetNameApp
-  properties: {
-    addressPrefix: subnetAddressPrefixApp
-    privateEndpointNetworkPolicies: 'Disabled'
-    privateLinkServiceNetworkPolicies: 'Enabled'
-  /*  networkSecurityGroup: {
-      id: networkSecurityGroup.id
-    } */
-    delegations: [
-      {
-        name: 'delegation'
-        properties: {
-          serviceName: 'Microsoft.Web/serverFarms'
-        }
-      }
-    ]
-  /*  serviceEndpoints: [
-      {
-        service: 'Microsoft.Storage'
-      }
-    ] */
+module createSubnets 'create_subnets.bicep' = {
+  name: 'createSubnets'
+  scope: resourceGroup('RG-DW_VNET-EastUS2')
+  params: {
+    vnet: vnet
+    subnetNameApp: subnetNameApp
+    subnetAddressPrefixApp: subnetAddressPrefixApp
+    subnetNamePE: subnetNamePE
+    subnetAddressPrefixPE: subnetAddressPrefixPE
+    subnetNameDB: subnetNameDB
+    subnetAddressPrefixDB: subnetAddressPrefixDB
   }
 }
-
-resource subnetPE 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = {
-  parent: vnet
-  name: subnetNamePE
-  properties: {
-    addressPrefix: subnetAddressPrefixPE
-    privateEndpointNetworkPolicies: 'Enabled'
-    privateLinkServiceNetworkPolicies: 'Disabled'
-  /*  networkSecurityGroup: {
-      id: networkSecurityGroup.id
-    } */
-  /*  delegations: [
-      {
-        name: 'delegation'
-        properties: {
-          serviceName: 'Microsoft.Web/serverFarms'
-        }
-      }
-    ] */
-  /*  serviceEndpoints: [
-      {
-        service: 'Microsoft.Storage'
-      }
-    ] */
-  }
-}
-
-resource subnetDB 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = {
-  parent: vnet
-  name: subnetNameDB
-  properties: {
-    addressPrefix: subnetAddressPrefixDB
-    privateEndpointNetworkPolicies: 'Disabled'
-    privateLinkServiceNetworkPolicies: 'Enabled'
-  /*  networkSecurityGroup: {
-      id: networkSecurityGroup.id
-    } */
-  /*  delegations: [
-      {
-        name: 'delegation'
-        properties: {
-          serviceName: 'Microsoft.Web/serverFarms'
-        }
-      }
-    ] */
-  /*  serviceEndpoints: [
-      {
-        service: 'Microsoft.Storage'
-      }
-    ] */
-  }
-}
-
 //Microsoft.Network/fpgaNetworkInterfaces,Microsoft.Web/serverFarms,Microsoft.ContainerInstance/containerGroups,Microsoft.Netapp/volumes,Microsoft.HardwareSecurityModules/dedicatedHSMs,Microsoft.ServiceFabricMesh/networks,Microsoft.Logic/integrationServiceEnvironments,Microsoft.Batch/batchAccounts,Microsoft.Sql/managedInstances,Microsoft.Sql/managedInstancesOnebox,Microsoft.Sql/managedInstancesTest,Microsoft.Sql/managedInstancesStage,Microsoft.Web/hostingEnvironments,Microsoft.BareMetal/CrayServers,Microsoft.BareMetal/MonitoringServers,Microsoft.Databricks/workspaces,Microsoft.BareMetal/AzureHostedService,Microsoft.BareMetal/AzureVMware,Microsoft.BareMetal/AzureHPC,Microsoft.BareMetal/AzurePaymentHSM,Microsoft.StreamAnalytics/streamingJobs,Microsoft.DBforPostgreSQL/serversv2,Microsoft.AzureCosmosDB/clusters,Microsoft.MachineLearningServices/workspaces,Microsoft.DBforPostgreSQL/singleServers,Microsoft.DBforPostgreSQL/flexibleServers,Microsoft.DBforMySQL/serversv2,Microsoft.DBforMySQL/flexibleServers,Microsoft.DBforMySQL/servers,Microsoft.ApiManagement/service,Microsoft.Synapse/workspaces,Microsoft.PowerPlatform/vnetaccesslinks,Microsoft.Network/dnsResolvers,Microsoft.Kusto/clusters,Microsoft.DelegatedNetwork/controller,Microsoft.ContainerService/managedClusters,Microsoft.PowerPlatform/enterprisePolicies,Microsoft.Network/virtualNetworkGateways,Microsoft.StoragePool/diskPools,Microsoft.DocumentDB/cassandraClusters,Microsoft.Apollo/npu,Microsoft.AVS/PrivateClouds,Microsoft.Orbital/orbitalGateways,Microsoft.Singularity/accounts/networks,Microsoft.Singularity/accounts/npu,Microsoft.ContainerService/TestClients,Microsoft.LabServices/labplans,Microsoft.Fidalgo/networkSettings,Microsoft.DevCenter/networkConnection,NGINX.NGINXPLUS/nginxDeployments,Microsoft.CloudTest/pools,Microsoft.CloudTest/hostedpools,Microsoft.CloudTest/images,Microsoft.Codespaces/plans,PaloAltoNetworks.Cloudngfw/firewalls,Qumulo.Storage/fileSystems,Microsoft.App/testClients,Microsoft.App/environments,Microsoft.ServiceNetworking/trafficControllers,GitHub.Network/networkSettings,Microsoft.Network/networkWatchers,Dell.Storage/fileSystems
 
 @description('Creates the database server, users and groups required for ohdsi webapi')
