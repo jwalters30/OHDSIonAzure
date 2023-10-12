@@ -164,7 +164,7 @@ resource keyVaultDiagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-0
 }
 
 @description('Creates the integration VNet')
-resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = existing {
+resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' existing = {
   name: vnetName
   /*
   location: location
