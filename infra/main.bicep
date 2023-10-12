@@ -163,69 +163,6 @@ resource keyVaultDiagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-0
   }
 }
 
-@description('Finds the integration VNet')
-resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' existing = {
-  name: vnetName
-  scope: resourceGroup('RG-DW_VNET-EastUS2')
-  /*
-  location: location
-  properties: {
-    addressSpace: {
-      addressPrefixes: [
-        vnetAddressPrefix
-      ]
-    }
-    subnets: [
-      {
-        name: subnetNameApp
-        properties: {
-          addressPrefix: subnetAddressPrefixApp
-          delegations: [
-            {
-              name: 'delegation'
-              properties: {
-                serviceName: 'Microsoft.Web/serverFarms'
-              }
-            }
-          ]
-        }
-      }
-      {
-        name: subnetNameDB
-        properties: {
-          addressPrefix: subnetAddressPrefixDB
-          serviceEndpoints: [
-            {
-              service: 'Microsoft.Sql'
-            }
-          ]
-        }
-      }
-      {
-        name: subnetNameSynapse
-        properties: {
-          addressPrefix: subnetAddressPrefixSynapse
-          delegations: [
-            {
-              name: 'delegation'
-              properties: {
-                serviceName: 'Microsoft.Synapse/workspaces'
-              }
-            }
-          ]
-        }
-      }
-      {
-        name: subnetNamePE
-        properties: {
-          addressPrefix: subnetAddressPrefixPE
-        }
-      }
-    ]
-  }
-  */
-}
-
 module createSubnets 'create_subnets.bicep' = {
   name: 'createSubnets'
   scope: resourceGroup('RG-DW_VNET-EastUS2')
