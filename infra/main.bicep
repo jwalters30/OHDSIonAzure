@@ -193,7 +193,7 @@ module atlasDatabase 'atlas_database.bicep' = {
     postgresWebapiAppPassword: postgresWebapiAppPassword
     localDebug: localDebug
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: createSubnets.outputs.subnetDB.resourceId
+    subnetID: '/subscriptions/7f83d432-bf4a-4d15-b972-4871bd8b9225/resourceGroups/RG-DW_VNET-EastUS2/providers/Microsoft.Network/virtualNetworks/DW_VNET-EastUS2/subnets/snet-jw20231012-db'
   }
 }
 
@@ -212,7 +212,7 @@ module ohdsiWebApiWebapp 'ohdsi_webapi.bicep' = {
     postgresWebapiAppUsername: atlasDatabase.outputs.postgresWebapiAppUsername
     postgresWebApiSchemaName: atlasDatabase.outputs.postgresSchemaName
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: createSubnets.outputs.subnetApp.resourceId
+    subnetID: '/subscriptions/7f83d432-bf4a-4d15-b972-4871bd8b9225/resourceGroups/RG-DW_VNET-EastUS2/providers/Microsoft.Network/virtualNetworks/DW_VNET-EastUS2/subnets/snet-jw20231012-webapp'
   }
   dependsOn: [
     atlasDatabase
@@ -234,7 +234,7 @@ module omopCDMPostgres 'omop_cdm_postgres.bicep' = if (cdmDbType == 'PostgreSQL'
     postgresOMOPCDMPassword: OMOPCDMPassword
     postgresServerName: atlasDatabase.outputs.postgresServerName
     ohdsiWebapiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
-    subnetID: createSubnets.outputs.subnetDB.resourceId
+    subnetID: '/subscriptions/7f83d432-bf4a-4d15-b972-4871bd8b9225/resourceGroups/RG-DW_VNET-EastUS2/providers/Microsoft.Network/virtualNetworks/DW_VNET-EastUS2/subnets/snet-jw20231012-db'
   }
   dependsOn: [
     ohdsiWebApiWebapp
@@ -254,7 +254,7 @@ module omopCDMSynapse 'omop_cdm_synapse.bicep' = if (cdmDbType == 'Synapse Dedic
     databaseName: OMOPCDMDatabaseName
     sqlAdminPassword: OMOPCDMPassword
     ohdsiWebapiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
-    subnetID: createSubnets.outputs.subnetDB.resourceId
+    subnetID: '/subscriptions/7f83d432-bf4a-4d15-b972-4871bd8b9225/resourceGroups/RG-DW_VNET-EastUS2/providers/Microsoft.Network/virtualNetworks/DW_VNET-EastUS2/subnets/snet-jw20231012-db'
   }
   dependsOn: [
     ohdsiWebApiWebapp
@@ -270,7 +270,7 @@ module atlasUI 'ohdsi_atlas_ui.bicep' = {
     appServicePlanId: appServicePlan.id
     ohdsiWebApiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: createSubnets.outputs.subnetApp.resourceId
+    subnetID: '/subscriptions/7f83d432-bf4a-4d15-b972-4871bd8b9225/resourceGroups/RG-DW_VNET-EastUS2/providers/Microsoft.Network/virtualNetworks/DW_VNET-EastUS2/subnets/snet-jw20231012-webapp'
   }
   dependsOn: [
     ohdsiWebApiWebapp
