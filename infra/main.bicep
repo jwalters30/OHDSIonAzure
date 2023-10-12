@@ -100,8 +100,8 @@ param localDebug bool = false
 param cdmDbType string = 'PostgreSQL'
 
 var tenantId = subscription().tenantId
-var vnetName = 'vnet-${suffix}'
-<<<<<<< HEAD
+//var vnetName = 'vnet-${suffix}'
+var vnetName = 'DW_VNET-EastUS2'
 var vnetAddressPrefix = '10.210.16.0/22'
 var subnetNameApp = 'snet-${suffix}-webapp'
 var subnetAddressPrefixApp = '10.210.16.0/26'
@@ -111,11 +111,6 @@ var subnetNameSynapse = 'snet-${suffix}-synapse'
 var subnetAddressPrefixSynapse = '10.210.16.96/27'
 var subnetNamePE = 'snet-${suffix}-pe'
 var subnetAddressPrefixPE = '10.210.16.128/27'
-=======
-//var vnetAddressPrefix = '10.0.0.0/16'
-var subnetName = 'snet-${suffix}-webapp'
-//var subnetAddressPrefix = '10.0.0.0/24'
->>>>>>> b2eacd0355ec22b8290c272a1284fb363101e5c4
 
 @description('Creates the app service plan')
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
@@ -171,12 +166,8 @@ resource keyVaultDiagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-0
 @description('Creates the integration VNet')
 resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = existing {
   name: vnetName
-<<<<<<< HEAD
   /*
   location: location
-=======
-/*  location: location
->>>>>>> b2eacd0355ec22b8290c272a1284fb363101e5c4
   properties: {
     addressSpace: {
       addressPrefixes: [
@@ -230,12 +221,8 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-06-01' = existing {
         }
       }
     ]
-<<<<<<< HEAD
   }
   */
-=======
-  } */
->>>>>>> b2eacd0355ec22b8290c272a1284fb363101e5c4
 }
 
 //Microsoft.Network/fpgaNetworkInterfaces,Microsoft.Web/serverFarms,Microsoft.ContainerInstance/containerGroups,Microsoft.Netapp/volumes,Microsoft.HardwareSecurityModules/dedicatedHSMs,Microsoft.ServiceFabricMesh/networks,Microsoft.Logic/integrationServiceEnvironments,Microsoft.Batch/batchAccounts,Microsoft.Sql/managedInstances,Microsoft.Sql/managedInstancesOnebox,Microsoft.Sql/managedInstancesTest,Microsoft.Sql/managedInstancesStage,Microsoft.Web/hostingEnvironments,Microsoft.BareMetal/CrayServers,Microsoft.BareMetal/MonitoringServers,Microsoft.Databricks/workspaces,Microsoft.BareMetal/AzureHostedService,Microsoft.BareMetal/AzureVMware,Microsoft.BareMetal/AzureHPC,Microsoft.BareMetal/AzurePaymentHSM,Microsoft.StreamAnalytics/streamingJobs,Microsoft.DBforPostgreSQL/serversv2,Microsoft.AzureCosmosDB/clusters,Microsoft.MachineLearningServices/workspaces,Microsoft.DBforPostgreSQL/singleServers,Microsoft.DBforPostgreSQL/flexibleServers,Microsoft.DBforMySQL/serversv2,Microsoft.DBforMySQL/flexibleServers,Microsoft.DBforMySQL/servers,Microsoft.ApiManagement/service,Microsoft.Synapse/workspaces,Microsoft.PowerPlatform/vnetaccesslinks,Microsoft.Network/dnsResolvers,Microsoft.Kusto/clusters,Microsoft.DelegatedNetwork/controller,Microsoft.ContainerService/managedClusters,Microsoft.PowerPlatform/enterprisePolicies,Microsoft.Network/virtualNetworkGateways,Microsoft.StoragePool/diskPools,Microsoft.DocumentDB/cassandraClusters,Microsoft.Apollo/npu,Microsoft.AVS/PrivateClouds,Microsoft.Orbital/orbitalGateways,Microsoft.Singularity/accounts/networks,Microsoft.Singularity/accounts/npu,Microsoft.ContainerService/TestClients,Microsoft.LabServices/labplans,Microsoft.Fidalgo/networkSettings,Microsoft.DevCenter/networkConnection,NGINX.NGINXPLUS/nginxDeployments,Microsoft.CloudTest/pools,Microsoft.CloudTest/hostedpools,Microsoft.CloudTest/images,Microsoft.Codespaces/plans,PaloAltoNetworks.Cloudngfw/firewalls,Qumulo.Storage/fileSystems,Microsoft.App/testClients,Microsoft.App/environments,Microsoft.ServiceNetworking/trafficControllers,GitHub.Network/networkSettings,Microsoft.Network/networkWatchers,Dell.Storage/fileSystems
