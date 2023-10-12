@@ -192,7 +192,7 @@ module atlasDatabase 'atlas_database.bicep' = {
     postgresWebapiAppPassword: postgresWebapiAppPassword
     localDebug: localDebug
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: vnet.properties.subnets[3].id
+    subnetID: module.createSubnets.vnet.properties.subnets[3].id
   }
 }
 
@@ -211,7 +211,7 @@ module ohdsiWebApiWebapp 'ohdsi_webapi.bicep' = {
     postgresWebapiAppUsername: atlasDatabase.outputs.postgresWebapiAppUsername
     postgresWebApiSchemaName: atlasDatabase.outputs.postgresSchemaName
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: vnet.properties.subnets[1].id
+    subnetID: module.createSubnets.vnet.properties.subnets[1].id
   }
   dependsOn: [
     atlasDatabase
@@ -233,7 +233,7 @@ module omopCDMPostgres 'omop_cdm_postgres.bicep' = if (cdmDbType == 'PostgreSQL'
     postgresOMOPCDMPassword: OMOPCDMPassword
     postgresServerName: atlasDatabase.outputs.postgresServerName
     ohdsiWebapiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
-    subnetID: vnet.properties.subnets[3].id
+    subnetID: module.createSubnets.vnet.properties.subnets[3].id
   }
   dependsOn: [
     ohdsiWebApiWebapp
@@ -253,7 +253,7 @@ module omopCDMSynapse 'omop_cdm_synapse.bicep' = if (cdmDbType == 'Synapse Dedic
     databaseName: OMOPCDMDatabaseName
     sqlAdminPassword: OMOPCDMPassword
     ohdsiWebapiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
-    subnetID: vnet.properties.subnets[3].id
+    subnetID: module.createSubnets.vnet.properties.subnets[3].id
   }
   dependsOn: [
     ohdsiWebApiWebapp
@@ -269,7 +269,7 @@ module atlasUI 'ohdsi_atlas_ui.bicep' = {
     appServicePlanId: appServicePlan.id
     ohdsiWebApiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: vnet.properties.subnets[1].id
+    subnetID: module.createSubnets.vnet.properties.subnets[1].id
   }
   dependsOn: [
     ohdsiWebApiWebapp
