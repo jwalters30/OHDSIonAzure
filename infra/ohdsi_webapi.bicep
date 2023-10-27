@@ -14,9 +14,9 @@ param postgresWebapiAdminSecret string
 param logAnalyticsWorkspaceId string
 param subnetID string
 
-var dockerRegistryServer = 'https://index.docker.io/v1'
-var dockerImageName = 'ohdsi/webapi'
-var dockerImageTag = '2.12.1'
+var dockerRegistryServer = 'https://acrsbmriohdsi.azurecr.io'
+var dockerImageName = 'samples/webapi'
+var dockerImageTag = 'latest'
 var flywayBaselineVersion = '2.2.5.20180212152023'
 var tenantId = subscription().tenantId
 var logCategories = ['AppServiceAppLogs', 'AppServiceConsoleLogs', 'AppServiceHTTPLogs']

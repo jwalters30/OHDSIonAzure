@@ -102,7 +102,7 @@ param cdmDbType string = 'PostgreSQL'
 var tenantId = subscription().tenantId
 //var vnetName = 'vnet-${suffix}'
 var vnetName = 'DW_VNET-EastUS2'
-var vnetAddressPrefix = '10.210.16.0/22'
+//var vnetAddressPrefix = '10.210.16.0/22'
 var subnetNameApp = 'snet-${suffix}-webapp'
 // existing subnet is at '10.210.16.0/26'
 var subnetAddressPrefixApp = '10.210.16.96/27'
@@ -278,7 +278,7 @@ module atlasUI 'ohdsi_atlas_ui.bicep' = {
 }
 
 output ohdsiWebapiUrl string = ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
-/*
+
 @description('Creates the ohdsi achilles UI')
 module achillesUI 'ohdsi_achilles.bicep' = {
   name: 'achillesUI'
@@ -289,13 +289,13 @@ module achillesUI 'ohdsi_achilles.bicep' = {
 //    ohdsiWebApiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
     keyVaultName: keyVault.name
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: vnet.properties.subnets[1].id
+    subnetID: '/subscriptions/7f83d432-bf4a-4d15-b972-4871bd8b9225/resourceGroups/RG-DW_VNET-EastUS2/providers/Microsoft.Network/virtualNetworks/DW_VNET-EastUS2/subnets/snet-jw20231012-db'
   }
   dependsOn: [
     ohdsiWebApiWebapp
   ]
 }
-*/
+
 resource atlasSecurityAdminSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
   name: 'atlas-security-admin-password'
   parent: keyVault
