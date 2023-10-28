@@ -51,7 +51,7 @@ resource acrpullRoleDefinition 'Microsoft.Authorization/roleDefinitions@2018-01-
   name: '7f951dda-4ed3-4680-a7ca-43fe172d538d'
 }
 
-resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+resource ACRroleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: ohdsiACR
   name: guid(ohdsiACR.id, ohdsiWebapiIdentity.id, acrpullRoleDefinition.id)
   properties: {
@@ -253,6 +253,9 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
       '${ohdsiWebapiIdentity.id}': {}
     }
   }
+  dependsOn: [
+    ACRroleAssignment
+  ]
 }
 
 resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
