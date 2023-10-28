@@ -12,7 +12,7 @@ param postgresWebapiAppPassword string
 @description('Enables local access for debugging.')
 param localDebug bool = false
 param logAnalyticsWorkspaceId string
-param subnetID string
+//param subnetID string
 
 var postgresAdminUsername = 'postgres_admin'
 var postgresWebapiAdminUsername = 'ohdsi_admin_user'

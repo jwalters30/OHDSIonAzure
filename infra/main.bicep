@@ -195,7 +195,7 @@ module atlasDatabase 'atlas_database.bicep' = {
     postgresWebapiAppPassword: postgresWebapiAppPassword
     localDebug: localDebug
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: '/subscriptions/7f83d432-bf4a-4d15-b972-4871bd8b9225/resourceGroups/RG-DW_VNET-EastUS2/providers/Microsoft.Network/virtualNetworks/DW_VNET-EastUS2/subnets/snet-jw20231012-db'
+//    subnetID: '/subscriptions/7f83d432-bf4a-4d15-b972-4871bd8b9225/resourceGroups/RG-DW_VNET-EastUS2/providers/Microsoft.Network/virtualNetworks/DW_VNET-EastUS2/subnets/snet-jw20231012-db'
   }
 }
 
