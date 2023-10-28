@@ -56,7 +56,7 @@ resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(ohdsiACR.id, ohdsiWebapiIdentity.id, acrpullRoleDefinition.id)
   properties: {
     roleDefinitionId: acrpullRoleDefinition.id
-    principalId: ohdsiWebapiIdentity.id
+    principalId: ohdsiWebapiIdentity.properties.principalId
     principalType: 'ServicePrincipal'
   }
 }
