@@ -113,6 +113,8 @@ var subnetAddressPrefixDB = '10.210.16.64/27'
 var subnetNamePE = 'snet-${suffix}-pe'
 var subnetAddressPrefixPE = '10.210.16.128/27'
 
+var acrName = 'acrsbmriohdsi'
+
 @description('Creates the app service plan')
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   #disable-next-line use-stable-resource-identifiers
@@ -205,6 +207,7 @@ module ohdsiWebApiWebapp 'ohdsi_webapi.bicep' = {
     suffix: suffix
     appServicePlanId: appServicePlan.id
     keyVaultName: keyVault.name
+    acrName: acrName
     jdbcConnectionStringWebapiAdmin: 'jdbc:postgresql://${atlasDatabase.outputs.postgresServerFullyQualifiedDomainName}:5432/${atlasDatabase.outputs.postgresWebApiDatabaseName}?user=${atlasDatabase.outputs.postgresWebapiAdminUsername}&password=${postgresWebapiAdminPassword}&sslmode=require'
     postgresWebapiAdminSecret: atlasDatabase.outputs.postgresWebapiAdminSecretName
     postgresWebapiAppSecret: atlasDatabase.outputs.postgresWebapiAppSecretName
@@ -289,7 +292,7 @@ module achillesUI 'ohdsi_achilles.bicep' = {
 //    ohdsiWebApiUrl: ohdsiWebApiWebapp.outputs.ohdsiWebapiUrl
     keyVaultName: keyVault.name
     logAnalyticsWorkspaceId: logAnalyticsWorkspace.id
-    subnetID: '/subscriptions/7f83d432-bf4a-4d15-b972-4871bd8b9225/resourceGroups/RG-DW_VNET-EastUS2/providers/Microsoft.Network/virtualNetworks/DW_VNET-EastUS2/subnets/snet-jw20231012-db'
+    subnetID: '/subscriptions/7f83d432-bf4a-4d15-b972-4871bd8b9225/resourceGroups/RG-DW_VNET-EastUS2/providers/Microsoft.Network/virtualNetworks/DW_VNET-EastUS2/subnets/snet-jw20231012-webapp'
   }
   dependsOn: [
     ohdsiWebApiWebapp

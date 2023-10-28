@@ -13,6 +13,7 @@ param postgresWebapiAppSecret string
 param postgresWebapiAdminSecret string
 param logAnalyticsWorkspaceId string
 param subnetID string
+param acrName string
 
 var dockerRegistryServer = 'https://acrsbmriohdsi.azurecr.io'
 var dockerImageName = 'samples/webapi'
@@ -38,6 +39,26 @@ resource jdbcConnectionStringWebapiAdminSecret 'Microsoft.KeyVault/vaults/secret
 resource ohdsiWebapiIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
   name: 'id-ohdsiwebapi-${suffix}'
   location: location
+}
+
+resource ohdsiACR 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' existing = {
+  name: acrName
+}
+
+@description('This is the built-in Contributor role. See https://docs.microsoft.com/azure/role-based-access-control/built-in-roles')
+resource acrpullRoleDefinition 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' existing = {
+  scope: subscription()
+  name: '7f951dda-4ed3-4680-a7ca-43fe172d538d'
+}
+
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  scope: ohdsiACR
+  name: guid(ohdsiACR.id, ohdsiWebapiIdentity.id, acrpullRoleDefinition.id)
+  properties: {
+    roleDefinitionId: acrpullRoleDefinition.id
+    principalId: ohdsiWebapiIdentity.id
+    principalType: 'ServicePrincipal'
+  }
 }
 
 resource ohdsiWebapiAccessPolicy 'Microsoft.KeyVault/vaults/accessPolicies@2022-07-01' = {
