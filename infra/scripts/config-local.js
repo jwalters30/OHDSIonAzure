@@ -22,6 +22,12 @@ define([], function () {
       icon: "fa fa-database",
       isUseCredentialsForm: true,
     },
+    {
+      name: "SAML",
+      url: "user/login/saml",
+      ajax: false,
+      icon: "fab fa-openid"
+    },
   ];
 
   return configLocal;
