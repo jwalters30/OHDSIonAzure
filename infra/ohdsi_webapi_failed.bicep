@@ -249,25 +249,28 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
         }
         {
           name: 'SECURITY_SAML_ENTITYID'
-          value: 'app-ohdsiwebapi-jw20231012'
+          #disable-next-line no-hardcoded-env-urls
+          value: 'https://sts.windows.net/eafa1b31-b194-425d-b366-56c215b7760c/'
         }
         {
-          name: 'SECURITY_SAML_idpMetadataLocation'
+          name: 'SECURITY_SAML_IDPMETADATALOCATION'
           #disable-next-line no-hardcoded-env-urls
           value: 'https://login.microsoftonline.com/eafa1b31-b194-425d-b366-56c215b7760c/federationmetadata/2007-06/federationmetadata.xml?appid=b7e2a382-882b-41e7-97a4-69238e5f6d8a'
         }
         {
-          name: 'SECURITY_SAML_metadataLocation'
+          name: 'SECURITY_SAML_METADATALOCATION'
           #disable-next-line no-hardcoded-env-urls
           value: 'https://login.microsoftonline.com/common/FederationMetadata/2007-06/FederationMetadata.xml'
         }
         {
-          name: 'SECURITY_SAML_callbackUrl'
+          name: 'SECURITY_SAML_CALLBACKURL'
+          #disable-next-line no-hardcoded-env-urls
           value: 'https://app-ohdsiwebapi-jw20231012.azurewebsites.net/WebAPI/user/saml/callback'
         }
         {
-          name: 'SECURITY_SAML_sloUrl'
-          value: 'https://app-ohdsiwebapi-jw20231012.azurewebsites.net/WebAPI/info'
+          name: 'SECURITY_SAML_SLOURL'
+          #disable-next-line no-hardcoded-env-urls
+          value: 'https://login.microsoftonline.com/eafa1b31-b194-425d-b366-56c215b7760c/saml2'
         }
       ]
     }
